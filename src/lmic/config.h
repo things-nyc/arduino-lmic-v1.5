@@ -5,10 +5,10 @@
 // gcc commandline. Since Arduino does not allow easily modifying the
 // compiler commandline, use this file instead. (MK)
 
-#define CFG_eu868 1
-//#define CFG_us915 1
-#define CFG_sx1272_radio 1
-//#define CFG_sx1276_radio 1
+//#define CFG_eu868 1
+#define CFG_us915 1
+//#define CFG_sx1272_radio 1
+#define CFG_sx1276_radio 1
 
 // 50 μs per tick
 #define US_PER_OSTICK 50
