@@ -1,3 +1,17 @@
+Crude Teensy (3.1/3.2/LC) Based TTN Test Node with RFM95
+
+This is a quick fork of tftelkamp's teensy-targeted Arduino port of the IBM LMIC implementation intended to let myself and other members of the NYC TTN group test some ideas for low-cost beacons.   
+
+A teensy or similar non-ATmega MCU is recommended as the ATmega328p doesn't have sufficient resources for the scheme used to encode messages (though there are apparently alterantives).
+
+This implementation is pretty much a temporary step, on the way to doing something custom around a board with another low-cost ARM mcu, probably a KL25Z or KL26Z or something like that, so this repository may not stick around, but is being posted as an archive of where things stand today.
+
+Key changes made so far include modifying the config for US 915 MHz, adding an option to put the node's secrets in another file not under git, and putting in a hack to restrict transmission to a single channel in order to test against a crude gateway made of another RFM95 rather than a proper gateway radio.
+
+***
+
+tftelkamp's original readme follows:
+
 Arduino-LMIC-v1.5 library
 =========================
 This repository contains the IBM LMIC (LoraMAC-in-C) v1.5 library, 
