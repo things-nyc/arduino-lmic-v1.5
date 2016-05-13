@@ -28,6 +28,19 @@
 #include <hal/hal.h>
 #include <SPI.h>
 
+#if 1
+#define SINGLE_CHANNEL_GATEWAY //force it to use 902.3 MHz only
+#define TRANSMIT_INTERVAL 10 //in seconds, TOO OFTEN MAY GET YOUR TRAFFIC IGNORED
+#include "test_node_secrets.h"
+static const u1_t APPEUI[8]  = MY_APPEUI;
+static const u1_t DEVEUI[8]  = MY_DEVEUI;
+static const u1_t DEVKEY[16] = MY_NWKSKEY;
+static const u1_t ARTKEY[16] = MY_APPSKEY;
+static const u4_t DEVADDR = MY_DEVADDR;
+#else
+#define TRANSMIT_INTERVAL 120
+#warning YOU SHOULD SET CREATE AN APP AND A NODE IDENTITY (use a personal node)
+#warning SEE http://staging.thethingsnetwork.org/wiki/Backend/ttnctl/QuickStart
 // LoRaWAN Application identifier (AppEUI)
 // Not used in this example
 static const u1_t APPEUI[8]  = { 0x02, 0x00, 0x00, 0x00, 0x00, 0xEE, 0xFF, 0xC0 };
@@ -46,7 +59,10 @@ static const u1_t ARTKEY[16] = { 0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6,
 
 // LoRaWAN end-device address (DevAddr)
 // See http://thethingsnetwork.org/wiki/AddressSpace
+#warning FIXME You MUST SET A CUSTOM ADDRESS
 static const u4_t DEVADDR = 0x03FF0001 ; // <-- Change this address for every node!
+
+#endif
 
 //////////////////////////////////////////////////
 // APPLICATION CALLBACKS
@@ -67,7 +83,7 @@ void os_getDevKey (u1_t* buf) {
     memcpy(buf, DEVKEY, 16);
 }
 
-uint8_t mydata[] = "Hello, world!";
+uint8_t mydata[] = "Hello, from NYC!";
 static osjob_t sendjob;
 
 // Pin mapping
@@ -114,13 +130,18 @@ void do_send(osjob_t* j){
       LMIC_setTxData2(1, mydata, sizeof(mydata)-1, 0);
     }
     // Schedule a timed job to run at the given timestamp (absolute system time)
-    os_setTimedCallback(j, os_getTime()+sec2osticks(120), do_send);
+    os_setTimedCallback(j, os_getTime()+sec2osticks(TRANSMIT_INTERVAL), do_send);
          
 }
 
 void setup() {
   Serial.begin(9600);
   Serial.println("Starting");
+
+  delay(3000); //Give teensy USB some time
+  for (int i = 0; i < 8 ; i++)
+    Serial.println(DEVKEY[i], HEX);
+  Serial.println("setting up");
   // LMIC init
   os_init();
   // Reset the MAC state. Session and pending data transfers will be discarded.
@@ -140,6 +161,12 @@ void setup() {
   LMIC_setDrTxpow(DR_SF7,14);
   //
   Serial.flush();
+
+  #ifdef SINGLE_CHANNEL_GATEWAY
+  Serial.println("Disabling all channels but 0 (902.3 MHz) for single-channel gateway compatibility");
+  for (int i=1; i<75; i++)
+   LMIC_disableChannel(i);
+  #endif
 }
 
 void loop() {
