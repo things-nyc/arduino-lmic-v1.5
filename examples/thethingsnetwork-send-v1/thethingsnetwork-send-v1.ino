@@ -139,8 +139,6 @@ void setup() {
   Serial.println("Starting");
 
   delay(3000); //Give teensy USB some time
-  for (int i = 0; i < 8 ; i++)
-    Serial.println(DEVKEY[i], HEX);
   Serial.println("setting up");
   // LMIC init
   os_init();
