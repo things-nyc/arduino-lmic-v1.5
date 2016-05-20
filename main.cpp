@@ -1,19 +1,3 @@
-#include "mbed.h"
-#if 0 
-//SPI device(SPI_MOSI, SPI_MISO, SPI_SCK);
- 
-int main() {
-/*
-    int i = 0;
-    while(1) {
-        device.write(0x55);
-        device.write(i++);
-        device.write(0xE0);
-        wait_us(50);
-    }
-*/
-}
-#endif
 /*******************************************************************************
  * Copyright (c) 2015 Thomas Telkamp and Matthijs Kooijman
  *
@@ -40,6 +24,7 @@ int main() {
  *
  *******************************************************************************/
 
+#include <mbed.h>
 #include <lmic.h>
 #include <hal/hal.h>
 #include <SPI.h>
