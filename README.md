@@ -1,8 +1,16 @@
-Crude Teensy (3.1/3.2/LC) Based TTN Test Node with RFM95
+Crude TTN Test Node with RFM95 for:
+
+      Nucleo STM32F411RE ARM Cortex M4 using mbed-library
+
+      Kinetis KL25Z Freedom ARM Cortex M0 using mbed-library
+
+      Teensy 3.1 ARM Cortex M4 using Arduino and Teensy plugin
 
 This is a quick fork of tftelkamp's teensy-targeted Arduino port of the IBM LMIC implementation intended to let myself and other members of the NYC TTN group test some ideas for low-cost beacons.   
 
-A teensy or similar non-ATmega MCU is recommended as the ATmega328p doesn't have sufficient resources for the scheme used to encode messages (though there are apparently alterantives).
+For the mbed version, adding a new target is a matter of getting the target-unique files for the mbed-src library and adding them, then updating the Makefile and src/hal/hal.cpp with the necessary pin assignments.
+
+For the Arduino version teensy or similar non-ATmega MCU is recommended as the ATmega328p doesn't have sufficient resources for the scheme used to encode messages (though there are apparently alterantives).
 
 This implementation is pretty much a temporary step, on the way to doing something custom around a board with another low-cost ARM mcu, probably a KL25Z or KL26Z or something like that, so this repository may not stick around, but is being posted as an archive of where things stand today.
 
@@ -18,7 +26,7 @@ license.
 
 The mbed-src/ directory contents are believed to be primarily under the Apache 2.0 license
 
-You not rely on this summary.  Refer to each individual source file for more details.
+You may not rely on this summary.  Refer to each individual source file for more details.
 
 ***
 
