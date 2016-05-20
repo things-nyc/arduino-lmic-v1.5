@@ -10,6 +10,8 @@
 #ifndef _hal_hal_h_
 #define _hal_hal_h_
 
+#ifdef ARDUINO
+
 static const int NUM_DIO = 3;
 
 struct lmic_pinmap {
@@ -18,6 +20,21 @@ struct lmic_pinmap {
     u1_t rst;
     u1_t dio[NUM_DIO];
 };
+
+#else
+uint64_t clock_ms();
+#define millis clock_ms
+#define micros us_ticker_read
+
+static const int NUM_DIO = 5;
+
+struct lmic_pinmap {
+    DigitalOut nss;
+    DigitalOut rxtx;
+    DigitalInOut rst;
+    DigitalInOut dio[NUM_DIO];
+};
+#endif
 
 // Declared here, to be defined an initialized by the application
 extern lmic_pinmap pins;
