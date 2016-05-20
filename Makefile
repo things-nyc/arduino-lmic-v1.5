@@ -2,13 +2,14 @@
 # see http://mbed.org/handbook/Exporting-to-GCC-ARM-Embedded
 
 GCC_BIN = 
-PROJECT = LMIC_Test
+PROJECT = testnode_$(TARGET)
 
-BUILD_DIR:=build/$(BUILD_TARGET)
+BUILD_TARGET=TARGET_$(TARGET)
+BUILD_DIR:=BUILD_$(TARGET)
 
 ifeq ($(BUILD_TARGET), TARGET_NUCLEO_F411RE)
 
-FLOAT_ABI = softfp# hard
+FLOAT_ABI = softfp
 
 TARGET_SYMBOLS = -DTARGET_RTOS_M4_M7 -DTARGET_FF_ARDUINO -DTOOLCHAIN_GCC_ARM -DTARGET_NUCLEO_F411RE -D__CORTEX_M4 -DTARGET_LIKE_MBED -DTARGET_CORTEX_M -D__FPU_PRESENT=1 -DTARGET_LIKE_CORTEX_M4 -DTARGET_M4 -D__MBED__=1 -DTARGET_STM -DTARGET_STM32F4 -DTOOLCHAIN_GCC -DTARGET_STM32F411RE -DTARGET_FF_MORPHO -DARM_MATH_CM4 
 
@@ -140,7 +141,7 @@ LINKER_SCRIPT = ./mbed-src/targets/cmsis/TARGET_Freescale/TARGET_KLXX/TARGET_KL2
 LD_FLAGS = $(CPU) -Wl,--gc-sections --specs=nano.specs -Wl,--wrap,main -Wl,-Map=$(PROJECT).map,--cref
 
 else
-$(error BUILD_TARGET=$(BUILD_TARGET) does not specify a known target)
+$(error TARGET "$(TARGET)" unsupported, specify make TARGET={NUCLEO_F411RE, KL52Z} etc)
 endif
 
 MBED_SRCS = \
@@ -253,14 +254,14 @@ all: $(PROJECT).bin # $(PROJECT).hex size
 
 clean:
 	rm -f $(PROJECT).bin $(PROJECT).elf $(PROJECT).hex $(PROJECT).map $(PROJECT).lst $(OBJECTS) $(DEPS)
-	echo rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)
 
 #$(BUILD_DIR)/./mbed-src/targets/hal/$(TARGET_VENDOR)/$(TARGET_FAMILY)$(TARGET_HAL_EXTRA) :
 #	$(info creating $@)
 #	@mkdir $@
 
 #.s.o:
-$(BUILD_DIR)/%.o : %.s
+$(BUILD_DIR)/%.o : %.S
 	@mkdir -p $(@D) 
 	$(AS) $(CPU) -o $@ $<
 
@@ -270,7 +271,7 @@ $(BUILD_DIR)/%.o : %.c
 	@mkdir -p $(@D) #create output dir if it doesn't exist 
 	$(CC)  $(CC_FLAGS) $(CC_SYMBOLS) -std=gnu99   $(INCLUDE_PATHS) -o $@ $<
 
-#.c.o:
+#.cpp.o:
 $(BUILD_DIR)/%.o : %.cpp
 	$(info building $<)
 	@mkdir -p $(@D) 
@@ -297,6 +298,9 @@ size:
 
 DEPS = $(OBJECTS:.o=.d) #$(SYS_OBJECTS:.o=.d)
 	-include $(DEPS)
+
+rmolds:
+	find . -name "*~" | xargs rm -f
 
 ifndef DEBUGGER
 DEBUGGER := $(INTERFACE)-debug
