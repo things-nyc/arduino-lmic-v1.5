@@ -8,6 +8,18 @@ This implementation is pretty much a temporary step, on the way to doing somethi
 
 Key changes made so far include modifying the config for US 915 MHz, adding an option to put the node's secrets in another file not under git, and putting in a hack to restrict transmission to a single channel in order to test against a crude gateway made of another RFM95 rather than a proper gateway radio.
 
+License
+-------
+The source files in the src/ directory are made available under the Eclipse
+Public License v1.0
+
+Those in the examples/ directory use a more liberal
+license. 
+
+The mbed-src/ directory contents are believed to be primarily under the Apache 2.0 license
+
+You not rely on this summary.  Refer to each individual source file for more details.
+
 ***
 
 tftelkamp's original readme follows:
@@ -51,8 +63,4 @@ R2 to R1). I'm not sure why you wouldn't always want this connection to
 be made, but apparently there is a reason to control the switch from the 
 Arduino instead of from the SX1272.
 
-License
--------
-The source files in this repository are made available under the Eclipse
-Public License v1.0, except for the examples which use a more liberal
-license. Refer to each individual source file for more details.
+
