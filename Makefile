@@ -17,7 +17,7 @@ TARGET_CPUFLAGS = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=$(FLOAT_
 TARGET_INCL = -I./mbed-src/targets/cmsis/TARGET_STM -I./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4 -I./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4/TARGET_NUCLEO_F411RE -I./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4/TARGET_NUCLEO_F411RE/TOOLCHAIN_GCC_ARM \-I./mbed-src/targets/hal/TARGET_STM -I./mbed-src/targets/hal/TARGET_STM/TARGET_STM32F4 -I./mbed-src/targets/hal/TARGET_STM/TARGET_STM32F4/TARGET_NUCLEO_F411RE
 
 TARGET_SRCS = \
- ./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4/TARGET_NUCLEO_F411RE/TOOLCHAIN_GCC_ARM/startup_stm32f411xe.c \
+ ./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4/TARGET_NUCLEO_F411RE/TOOLCHAIN_GCC_ARM/startup_stm32f411xe.S \
  ./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4/stm32f4xx_hal.c \
  ./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4/stm32f4xx_hal_adc.c \
  ./mbed-src/targets/cmsis/TARGET_STM/TARGET_STM32F4/stm32f4xx_hal_adc_ex.c \
@@ -184,13 +184,13 @@ MBED_SRCS = \
  ./mbed-src/common/retarget.cpp
 
 LMIC_SRCS = \
- ./src/hal/hal.c \
- ./src/lmic/radio.c \
- ./src/lmic/oslmic.c \
- ./src/lmic/aes.c \
- ./src/lmic/lmic.c \
+ ./src/hal/hal.cpp \
+ ./src/lmic/radio.cpp \
+ ./src/lmic/oslmic.cpp \
+ ./src/lmic/aes.cpp \
+ ./src/lmic/lmic.cpp \
 
-SRCS = $(MBED_SRCS) $(TARGET_SRCS) $(LMIC_SRCS) ./main.c 
+SRCS = $(MBED_SRCS) $(TARGET_SRCS) $(LMIC_SRCS) ./main.cpp
 
 # Change project C &; C++ files into object files
 # http://kevincuzner.com/2014/04/28/teensy-3-1-bare-metal/
