@@ -1,3 +1,6 @@
+**NOT MAINTAINED**
+==============
+
 Crude TTN Test Node with RFM95 for:
 
       Nucleo STM32F411RE ARM Cortex M4 using mbed-library
